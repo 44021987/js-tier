@@ -1,0 +1,59 @@
+.yui_over_hidden {
+	overflow: hidden;
+}
+.yui-mask {
+	position: fixed;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: rgba(0,0,0,.2);
+}
+.yui-dialog {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	width: 300px;
+	max-width: 50%;
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	box-shadow: 0px 0px 10px #333;
+	border-radius: 4px;		
+	padding: 16px 10px;	
+	background: #FFFFFF;
+	animation: move .5s;
+}
+.yui-dialog__bd, .yui-dialog__hd {
+	text-align: center;
+}
+.yui-dialog__ft {
+	text-align: center;
+	padding-top: 16px;
+}
+.yui-dialog__btn {
+	color: #FFFFFF;
+	padding: 6px 20px;
+	background: pink;
+	border-radius: 3px;
+	text-decoration: none;
+}
+.foot {
+	position: absolute;
+	bottom: 0;
+}
+@keyframes move{
+	from{
+		top: 30%
+	}
+	to{
+		top: 50%
+	}
+}
+@-webkit-keyframes move{
+	from{
+		top: 30%
+	}
+	to{
+		top: 50%
+	}
+}

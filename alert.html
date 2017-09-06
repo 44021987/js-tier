@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="src/alert/alert.css"/>
+		<style type="text/css">
+			body {
+				height: 2000px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<p>ddjahjsdhf</p>
+		<p class="foot"><a href="javascript:;">点击</a></p>
+		<p class="foot2"><a href="javascript:;">点击</a></p>
+	</body>
+	<script src="src/alert/alert.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		document.querySelector(".foot").addEventListener("click", function () {
+			tier.confirm({
+				message: "test1",
+				callback: function (result) {
+					console.log(result)
+				}
+			})
+		})
+		document.querySelector(".foot2").addEventListener("click", function () {
+			tier.confirm({
+				message: "test2",
+				confirm: "提交",
+				callback: function (result) {
+					console.log(result+"test2")
+				}
+			})
+		})
+	</script>
+
+</html>
