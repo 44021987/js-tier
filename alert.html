@@ -13,27 +13,34 @@
 	</head>
 
 	<body>
-		<p>ddjahjsdhf</p>
-		<p class="foot"><a href="javascript:;">点击</a></p>
-		<p class="foot2"><a href="javascript:;">点击</a></p>
+		<h1>Tier Alert</h1>
+		<div class="confirm1"><a href="javascript:;">confirm01</a></div>
+		<div class="confirm2"><a href="javascript:;">confirm02</a></div>
+		<div class="alert"><a href="javascript:;">alert</a></div>
 	</body>
 	<script src="src/alert/alert.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript">
-		document.querySelector(".foot").addEventListener("click", function () {
+		document.querySelector(".confirm1").addEventListener("click", function () {
 			tier.confirm({
 				message: "test1",
 				callback: function (result) {
 					console.log(result)
+					alert(result)
 				}
 			})
 		})
-		document.querySelector(".foot2").addEventListener("click", function () {
+		document.querySelector(".confirm2").addEventListener("click", function () {
 			tier.confirm({
 				message: "test2",
 				confirm: "提交",
 				callback: function (result) {
-					console.log(result+"test2")
+					alert(result+"test2")
 				}
+			})
+		})
+		document.querySelector(".alert").addEventListener("click", function () {
+			tier.alert({
+				message: "this is alert test"
 			})
 		})
 	</script>

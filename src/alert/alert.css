@@ -37,10 +37,6 @@
 	border-radius: 3px;
 	text-decoration: none;
 }
-.foot {
-	position: absolute;
-	bottom: 0;
-}
 @keyframes move{
 	from{
 		top: 30%

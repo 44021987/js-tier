@@ -1,15 +1,14 @@
 /*
  * 作者：yuanwei
  * 使用说明：
- * 	tier.alert({message: "",label: "",callback: null})
- * 	tier.confirm({message: "",title: "",confirm: "",cancle: "",callback: null})	
+ * 	tier.alert({message: "",label: "",callback: fn})
+ * 	tier.confirm({message: "",title: "",confirm: "",cancle: "",callback: fn})	
  * 日期：2017/9/6
  */
 (function (win, doc) {
 	var alertOptions,
 		confirmOptions,
 		tier;
-		
 	alertOptions = {
 		message: "",
 		label: "确定",
@@ -31,10 +30,12 @@
 		this.confirmDom = null;
 	}
 	Tier.prototype.config = function (opts, oldOpts) {
+		// 返回一个新的options
+		var oldOptsCopy = JSON.parse(JSON.stringify(oldOpts));
 		for (var key in opts) {
-			oldOpts[key] = opts[key];
+			oldOptsCopy[key] = opts[key];
 		}
-		return oldOpts
+		return oldOptsCopy
 	}
 	// alert
 	Tier.prototype.createAlertDom = function (opts) {
@@ -106,7 +107,7 @@
 		$$("#tier_confirm_confirm").addEventListener("click", function () {
 			oConfirm.style.display = "none";
 			doc.body.className = "";
-			opts.callback.call(null, true);
+			if (typeof opts.callback === "function") opts.callback.call(null, true);
 		})
 		return (this.confirmDom = oConfirm);
 	}
