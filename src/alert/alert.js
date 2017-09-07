@@ -24,7 +24,6 @@
 	function $$ (v) {
 		return doc.querySelector(v);
 	}
-	
 	function Tier() {
 		this.alertDom = null;
 		this.confirmDom = null;
