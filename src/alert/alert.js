@@ -8,7 +8,7 @@
 (function (win, doc) {
 	var alertOptions,
 		confirmOptions,
-		tier;
+		ohidden = "yui_over_hidden";
 	alertOptions = {
 		message: "",
 		label: "确定",
@@ -36,9 +36,16 @@
 		}
 		return oldOptsCopy
 	}
+	Tier.prototype.listen = function (dom, evtarget, fn, isconfirm) {
+		evtarget.addEventListener("click", function () {
+			dom.style.display = "none";
+			doc.body.className = "";
+			if (typeof fn === "function") isconfirm ? fn.call(null, true) : fn();
+		})
+	}
 	// alert
 	Tier.prototype.createAlertDom = function (opts) {
-		doc.body.className = "yui_over_hidden";
+		doc.body.className = ohidden;
 		if (this.alertDom !== null) {
 			$$("#tier-alert .yui-dialog__bd").innerHTML = opts.message;
 			$$("#tier-alert-btn").innerHTML = opts.label;
@@ -58,11 +65,7 @@
 		oAlert.id = "tier-alert";
 		oAlert.innerHTML = alertHtml;
 		doc.body.appendChild(oAlert);
-		$$("#tier-alert-btn").addEventListener("click", function () {
-			oAlert.style.display = "none";
-			doc.body.className = "";
-			if (typeof opts.callback === "function") opts.callback();
-		})
+		this.listen(oAlert, $$("#tier-alert-btn"), opts.callback)
 		return (this.alertDom = oAlert);
 	}
 	Tier.prototype.alert = function () {
@@ -75,7 +78,7 @@
 	}
 	// confirm
 	Tier.prototype.createConfirmDom = function (opts) {
-		doc.body.className = "yui_over_hidden";
+		doc.body.className = ohidden;
 		if (this.confirmDom !== null) {
 			$$("#tier-confirm .yui-dialog__title").innerHTML = opts.title ? opts.title : "";
 			$$("#tier-confirm .yui-dialog__bd").innerHTML = opts.message;
@@ -99,15 +102,8 @@
 		oConfirm.id = "tier-confirm";
 		oConfirm.innerHTML = confirmHtml;
 		doc.body.appendChild(oConfirm);
-		$$("#tier_confirm_cancle").addEventListener("click", function () {
-			oConfirm.style.display = "none";
-			doc.body.className = "";
-		})
-		$$("#tier_confirm_confirm").addEventListener("click", function () {
-			oConfirm.style.display = "none";
-			doc.body.className = "";
-			if (typeof opts.callback === "function") opts.callback.call(null, true);
-		})
+		this.listen(oConfirm, $$("#tier_confirm_cancle"));
+		this.listen(oConfirm, $$("#tier_confirm_confirm"), opts.callback, true);
 		return (this.confirmDom = oConfirm);
 	}
 	Tier.prototype.confirm = function () {
@@ -117,6 +113,7 @@
 			config = this.config(argus, confirmOptions);
 			this.createConfirmDom(config);
 		}
+		 
 	}
 	return win.tier = new Tier();
 })(window, document);
