@@ -6,7 +6,6 @@
  * 日期：2017/9/6
  */
 (function (win, doc) {
-	var ohidden = "yui_over_hidden";
 	function $$ (v) {
 		return doc.querySelector(v);
 	}
@@ -45,10 +44,10 @@
 		dom.id = id;
 		dom.innerHTML = ohtml;
 		doc.body.appendChild(dom);
+		doc.body.className = "yui_over_hidden";
 	}
 	// alert
 	Tier.prototype.createAlertDom = function (opts) {
-		doc.body.className = ohidden;
 		var oAlert = doc.createElement("div"),
 			alertHtml = `
 				<div class="yui-mask"></div>
@@ -68,7 +67,6 @@
 	}
 	// confirm
 	Tier.prototype.create = function (opts) {
-		doc.body.className = ohidden;
 		var oConfirm = doc.createElement("div"),
 			confirmHtml = `
 				<div class="yui-mask"></div>
