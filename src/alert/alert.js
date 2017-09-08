@@ -6,7 +6,7 @@
  * 日期：2017/9/6
  */
 (function (win, doc) {
-	var alertOptions,
+	var alertOptions, 
 		confirmOptions,
 		ohidden = "yui_over_hidden";
 	alertOptions = {
@@ -43,6 +43,11 @@
 			if (typeof fn === "function") isconfirm ? fn.call(null, true) : fn();
 		})
 	}
+	Tier.prototype.bindDom = function (dom, id, ohtml) {
+		dom.id = id;
+		dom.innerHTML = ohtml;
+		doc.body.appendChild(dom);
+	}
 	// alert
 	Tier.prototype.createAlertDom = function (opts) {
 		doc.body.className = ohidden;
@@ -62,9 +67,7 @@
 	                </div>
 	           </div>
 			`;
-		oAlert.id = "tier-alert";
-		oAlert.innerHTML = alertHtml;
-		doc.body.appendChild(oAlert);
+		this.bindDom(oAlert, "tier-alert", alertHtml)
 		this.listen(oAlert, $$("#tier-alert-btn"), opts.callback)
 		return (this.alertDom = oAlert);
 	}
@@ -99,9 +102,7 @@
 	                </div>
 	            </div>
 			`;
-		oConfirm.id = "tier-confirm";
-		oConfirm.innerHTML = confirmHtml;
-		doc.body.appendChild(oConfirm);
+		this.bindDom(oConfirm, "tier-confirm", confirmHtml)
 		this.listen(oConfirm, $$("#tier_confirm_cancle"));
 		this.listen(oConfirm, $$("#tier_confirm_confirm"), opts.callback, true);
 		return (this.confirmDom = oConfirm);
