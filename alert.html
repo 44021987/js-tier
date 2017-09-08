@@ -40,7 +40,10 @@
 		})
 		document.querySelector(".alert").addEventListener("click", function () {
 			tier.alert({
-				message: "this is alert test"
+				message: "this is alert test",
+				callback: function () {
+					console.log(123)
+				}
 			})
 		})
 	</script>
