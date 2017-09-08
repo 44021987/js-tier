@@ -6,40 +6,40 @@
  * 日期：2017/9/6
  */
 (function (win, doc) {
-	var options,
-		alertDom = null,
-		confirmDom = null,
-		ohidden = "yui_over_hidden";
-	options = {
-		title: "",
-		message: "",
-		label: "确定",
-		confirm: "确定",
-		cancle: "取消",
-		callback: null
-	}
+	var ohidden = "yui_over_hidden";
 	function $$ (v) {
 		return doc.querySelector(v);
 	}
 	function Tier() {
-		
+		this.options = {
+			title: "",
+			message: "",
+			label: "确定",
+			confirm: "确定",
+			cancle: "取消",
+			callback: null
+		}
 	}
-	Tier.prototype.config = function (opts, oldOpts) {
-		// 返回一个新的options
-		var oldOptsCopy = JSON.parse(JSON.stringify(oldOpts));
+	Tier.prototype.config = function (opts) {
+		var newOptsCopy = JSON.parse(JSON.stringify(this.options));
 		if (Object.prototype.toString.call(opts).slice(-7, -1) === "Object") {
 			for (var key in opts) {
-				oldOptsCopy[key] = opts[key];
+				newOptsCopy[key] = opts[key];
 			}
 		}
-		return oldOptsCopy
+		return newOptsCopy;
 	}
 	Tier.prototype.listen = function (dom, evtarget, fn, isconfirm) {
+		var that = this;
 		evtarget.addEventListener("click", function () {
 			dom.style.display = "none";
 			doc.body.className = "";
+			that.remove(dom);
 			if (typeof fn === "function") isconfirm ? fn.call(null, true) : fn();
 		})
+	}
+	Tier.prototype.remove = function (onode) {
+		document.body.removeChild(onode);
 	}
 	Tier.prototype.bindDom = function (dom, id, ohtml) {
 		dom.id = id;
@@ -49,12 +49,6 @@
 	// alert
 	Tier.prototype.createAlertDom = function (opts) {
 		doc.body.className = ohidden;
-		if (alertDom !== null) {
-			$$("#tier-alert .yui-dialog__bd").innerHTML = opts.message;
-			$$("#tier-alert-btn").innerHTML = opts.label;
-			alertDom.style.display = "block";
-			return;
-		};
 		var oAlert = doc.createElement("div"),
 			alertHtml = `
 				<div class="yui-mask"></div>
@@ -67,22 +61,14 @@
 			`;
 		this.bindDom(oAlert, "tier-alert", alertHtml)
 		this.listen(oAlert, $$("#tier-alert-btn"), opts.callback)
-		return (alertDom = oAlert);
+		return oAlert;
 	}
 	Tier.prototype.alert = function (opts) {
-		this.createAlertDom(this.config(opts, options));
+		this.createAlertDom(this.config(opts));
 	}
 	// confirm
-	Tier.prototype.createConfirmDom = function (opts) {
+	Tier.prototype.create = function (opts) {
 		doc.body.className = ohidden;
-		if (confirmDom !== null) {
-			$$("#tier-confirm .yui-dialog__title").innerHTML = opts.title ? opts.title : "";
-			$$("#tier-confirm .yui-dialog__bd").innerHTML = opts.message;
-			$$("#tier_confirm_cancle").innerHTML = opts.cancle;
-			$$("#tier_confirm_confirm").innerHTML = opts.confirm;
-			confirmDom.style.display = "block";
-			return;
-		};
 		var oConfirm = doc.createElement("div"),
 			confirmHtml = `
 				<div class="yui-mask"></div>
@@ -95,13 +81,13 @@
 	                </div>
 	            </div>
 			`;
-		this.bindDom(oConfirm, "tier-confirm", confirmHtml)
+		this.bindDom(oConfirm, "tier-confirm", confirmHtml);
 		this.listen(oConfirm, $$("#tier_confirm_cancle"));
 		this.listen(oConfirm, $$("#tier_confirm_confirm"), opts.callback, true);
-		return (confirmDom = oConfirm);
+		return oConfirm;
 	}
 	Tier.prototype.confirm = function (opts) {
-		this.createConfirmDom(this.config(opts, options));
+		this.create(this.config(opts));
 	}
 	return win.tier = {
 		alert (opts) {
