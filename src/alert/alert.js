@@ -87,7 +87,7 @@
 	Tier.prototype.confirm = function (opts) {
 		this.create(this.config(opts));
 	}
-	return win.tier = {
+	win.tier = {
 		alert (opts) {
 			return new Tier().alert(opts);
 		},
